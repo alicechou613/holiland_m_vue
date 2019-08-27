@@ -1,12 +1,14 @@
 <template>
-    <div>list
+    <div>
         <div class="produces">
             <div v-for="(elem,i) of list" :key="i">
-                <img :src="elem.img_main" alt="">
-                <p>
-                    <span>{{elem.title}}</span>
-                    <span  v-text="`¥${elem.price.toFixed(2)}`"></span>
-                </p>
+                <router-link :to="'/'+elem.url+'/'+elem.pid">
+                    <img :src="elem.img_main" alt="">
+                    <p>
+                        <span>{{elem.title}}</span>
+                        <span  v-text="`¥${elem.price.toFixed(2)}`"></span>
+                    </p>
+                </router-link>
             </div>
         </div>
     </div>
@@ -47,16 +49,16 @@ export default {
         border:1px solid #eee;
         border-radius: 4px;
     }
-    .produces>div>img{
+    .produces div img{
         width:100%;
     }
-    .produces>div span:first-child{
+    .produces div span:first-child{
         font-size:90%;
         display: block;
         float: left;
         margin:5px;
     }
-    .produces>div span:last-child{
+    .produces div span:last-child{
         font-size:90%;
         color:#6bc4df;
         display: block;

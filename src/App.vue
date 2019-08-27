@@ -1,28 +1,14 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <!-- aaaa -->
     <router-view style="margin-bottom:55px;"/>
-
-    <!-- <mt-tab-container   v-model="active">
-       <mt-tab-container-item id="tab1"> 
-         <index></index>
-       </mt-tab-container-item>
-       <mt-tab-container-item id="tab2">
-         <list></list>
-       </mt-tab-container-item>
-       <mt-tab-container-item id="tab3">
-         <cart></cart>
-       </mt-tab-container-item>
-       <mt-tab-container-item id="tab4">
-         <my></my>
-       </mt-tab-container-item>
-  </mt-tab-container> -->
   <div  class="tabbar">
       <div @click="selActive">
         <mt-tabbar v-model="active">
           <mt-tab-item id="tab1" style="color:#87d0e3;">
+            <!-- <button
+              :selectedImg="require('./assets/index2.png')"
+              :noemalImg="require('./assets/index.png')">
+            </button> -->
             <img slot="icon" src="./assets/index2.png">
             首页
           </mt-tab-item>
