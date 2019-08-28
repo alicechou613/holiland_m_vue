@@ -4,24 +4,20 @@
   <div  class="tabbar">
       <div @click="selActive">
         <mt-tabbar v-model="active">
-          <mt-tab-item id="tab1" style="color:#87d0e3;">
-            <!-- <button
-              :selectedImg="require('./assets/index2.png')"
-              :noemalImg="require('./assets/index.png')">
-            </button> -->
-            <img slot="icon" src="./assets/index2.png">
+          <mt-tab-item id="tab1" :style="currentIndex[0].isSelect?'color:#87d0e3':'color:#cdcdcd'"  @click.native="changeState(0)">
+            <img slot="icon" :src="currentIndex[0].isSelect?require('./assets/index2.png'):require('./assets/index.png')">
             首页
           </mt-tab-item>
-          <mt-tab-item id="tab2" style="color:#87d0e3;">
-            <img slot="icon" src="./assets/list2.png">
+          <mt-tab-item id="tab2"  :style="currentIndex[1].isSelect?'color:#87d0e3':'color:#cdcdcd'"  @click.native="changeState(1)">
+            <img slot="icon" :src="currentIndex[1].isSelect?require('./assets/list2.png'):require('./assets/list.png')">
             产品
           </mt-tab-item>
-          <mt-tab-item id="tab3" style="color:#87d0e3;">
-            <img slot="icon"  src="./assets/cart2.png">
+          <mt-tab-item id="tab3"  :style="currentIndex[2].isSelect?'color:#87d0e3':'color:#cdcdcd'" @click.native="changeState(2)">
+            <img slot="icon" :src="currentIndex[2].isSelect?require('./assets/cart2.png'):require('./assets/cart.png')">
             购物车
           </mt-tab-item>
-          <mt-tab-item id="tab4" style="color:#87d0e3;">
-            <img slot="icon" src="./assets/my2.png">
+          <mt-tab-item id="tab4"  :style="currentIndex[3].isSelect?'color:#87d0e3':'color:#cdcdcd'"  @click.native="changeState(3)">
+            <img slot="icon" :src="currentIndex[3].isSelect?require('./assets/my2.png'):require('./assets/my.png')">
             我的
           </mt-tab-item>
         </mt-tabbar>
@@ -37,9 +33,27 @@ export default {
   data(){
     return{
       active:'tab1',
+      currentIndex:[
+         {isSelect:true},
+         {isSelect:false},
+         {isSelect:false},
+         {isSelect:false}
+       ],
       }
     },
     methods:{
+      changeState(n){
+                  //1:n当前按钮下标
+                  //2:创建循环数据
+          for(var i=0;i<this.currentIndex.length;i++){
+          //3:如果当前下标与参数下标一致
+          if(n==i){
+            this.currentIndex[i].isSelect=true;
+          }else{
+            this.currentIndex[i].isSelect=false;
+          }
+        }        
+      },
       selActive(){
         if(this.active=='tab1'){
           this.$router.push('/')
