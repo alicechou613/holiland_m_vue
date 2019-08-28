@@ -11,41 +11,76 @@
     </div>
     
     <!-- 轮播图 -->
-    <div class="banner_div">
-        <mt-swipe :auto="2000">
-            <mt-swipe-item v-for="(elem,i) of bannerimg" :key="i">
-                    <img :src="elem.cimgurl" alt="" class="img" @click="router">
-            </mt-swipe-item>
-        </mt-swipe>
+    <div>
+        <van-swipe :autoplay="3000" indicator-color="white">
+            <van-swipe-item  v-for="(elem,i) of images" :key="i">
+                <img :src="elem.cimgurl" alt="" @click="router" style="width:100%">
+            </van-swipe-item>
+        </van-swipe>
     </div>
     <!-- 搜索框 -->
     <div>
-        <mt-search v-model="value" cancel-text="搜索" placeholder="请输入您要搜索的商品名称">
-        </mt-search>
+        <van-search
+            v-model="value"
+            placeholder="请输入搜索的商品"
+            show-action
+            shape="round"
+            >
+            <div slot="action" @click="onSearch">搜索</div>
+        </van-search>
     </div>
     
     <!-- 热门列表 -->
+    <div class="produces">
+            <div v-for="(elem,i) of wagashiSingle" :key="i">
+                <router-link :to="'/'+elem.url+'/'+elem.pid">
+                    <img :src="elem.img_main" alt="">
+                    <p>
+                        <span>{{elem.title}}</span>
+                        <span  v-text="`¥${elem.price.toFixed(2)}`"></span>
+                    </p>
+                </router-link>
+            </div>
+        </div>
 </div>
 </template>
 <script>
 export default {
     data(){
         return{
-            bannerimg:[],
-            value:''
+            images:[],
+            value:'',
+            wagashiSingle:[]
         }
     },
     methods:{
+        onSearch(){
+             console.log(11111)
+        //   console.log(value.trim())
+        //   if(!value.trim()){
+        //     alert("请输入搜索关键字")
+        //   }else{
+        //     // console.log(`/search/${this.search_input}`)
+        //     this.$router.push(`/search/${value}`)
+        //     // console.log(this.search_input)
+        //     this.axios.get("/api/search",{params:{"titleSearch":this.search_input}}).then(result=>{
+        //       console.log(1)
+        //       console.log(result.data.data)
+        //     })
+        //   }
+        },
         load(){
-            //获取全部商品列表数据
-            this.axios.get("/api/allProduct").then(result=>{
-            window.console.log(result.data.data,'111')
-            }).catch(err=>{window.console.log(err)})
+            //获取wagashi列表数据
+            this.axios.get("/api/wagashiSingle").then(result=>{
+                console.log(2)
+                console.log(result.data.data)
+                this.wagashiSingle=result.data.data;
+                })
             //获取轮播图数据
             this.axios.get("/api/banner").then(result => {
-                this.bannerimg = result.data.data;
-                window.console.log(this.bannerimg)
-                window.console.log(this.bannerimg[0].cimgurl,333)
+                this.images = result.data.data;
+                window.console.log(this.images)
+                window.console.log(this.images[0].cimgurl,333)
             });
         },
         router(){
@@ -61,10 +96,37 @@ export default {
 }
 </script>
 <style scoped>
-.img{
-    width:100%;
-    height:100%;
-}
+    .produces{
+        width:100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    .produces>div{
+        margin-top:15px;
+        margin-left:1%;
+        margin-right:1%;
+        width:47.2%;
+        border:1px solid #eee;
+        border-radius: 4px;
+    }
+    .produces div img{
+        width:100%;
+    }
+    .produces div span:first-child{
+        font-size:90%;
+        display: block;
+        float: left;
+        margin:5px;
+    }
+    .produces div span:last-child{
+        font-size:90%;
+        color:#6bc4df;
+        display: block;
+        clear: both;
+        float: right;
+        margin:5px;
+    }
 .font{
     text-decoration: none;
     color:#6bc4df;
@@ -74,36 +136,7 @@ export default {
 }
 </style>
 <style>
-/*轮播指示器 lunbozhishiqi*/
-.mint-swipe>.mint-swipe-indicators{
-    bottom:365px;
-}
-.mint-swipe{
-    height:200px !important;
-}
-@media screen and (min-width:330px) and (max-width:380px) {
-    .banner_div>.mint-swipe>.mint-swipe-indicators{
-        bottom:339px;
-    }
-    .mint-swipe{
-        height:250px !important;
-    }
-}
-@media screen and (min-width:381px) and (max-width:420px) {
-    .banner_div>.mint-swipe>.mint-swipe-indicators{
-        bottom:325px;
-    }
-}
-@media screen and (min-width:421px) and (max-width:880px) {
-    .banner_div>.mint-swipe>.mint-swipe-indicators{
-        bottom:175px;
-    }
-}
-@media screen and (min-width:881px) and (max-width:1100px) {
-    .banner_div>.mint-swipe>.mint-swipe-indicators{
-        bottom:72px;
-    }
-}
+
 /*搜索框的高*/
 .mint-search{
     height:52px !important;

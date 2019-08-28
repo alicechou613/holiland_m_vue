@@ -1,18 +1,26 @@
 <template>
     <div>
+        <!-- 头 -->
+        <div>
+            <van-nav-bar
+                left-text="返回"
+                left-arrow
+                @click-left="onClickLeft"
+            />
+        </div>
         <!-- 轮播 -->
         <div>
-            <mt-swipe :show-indicators="false">
-                <mt-swipe-item v-for="(elem,i) of img_lg" :key="i">
-                   <img :src="elem" alt="" style="width:100%;margin-top:-50px;"> 
-                </mt-swipe-item>
-            </mt-swipe>
+            <van-swipe :autoplay="3000" indicator-color="white">
+            <van-swipe-item  v-for="(elem,i) of img_lg" :key="i">
+                <img :src="elem" alt="" style="width:100%">
+            </van-swipe-item>
+            </van-swipe>
         </div>
         <!-- 商品详情 -->
         <div class="detail_font">
             <p>{{wagashi.title}}</p>
             <p style="float:right;"  v-text="`¥${wagashi.price.toFixed(2)}`"></p>
-            <p style="clear:both;">规格：</p>
+            <p style="clear:both;" v-show="pattr[0]!=''">规格：</p>
             <p v-show="pattr!=''">{{wagashi.pattr}}</p>
         </div>
         <!-- 商品详情图 -->
@@ -40,8 +48,8 @@
                 </div>
             </div>
             <div style="padding:0 15px;">
-                <p style="padding:5px;">规格:</p>
-                <div v-for="(elem,i) of pattr" :key="i" style="float:left;border:1px solid #87d0e3;padding:5px;margin:5px;">{{elem}}</div>
+                <p style="padding:5px;" v-show="pattr[0]!=''">规格:</p>
+                <div v-for="(elem,i) of pattr" :key="i" style="float:left;border:1px solid #87d0e3;padding:5px;margin:5px;"  v-show="pattr[0]!=''">{{elem}}</div>
             </div>
             <div class="div_count">
                 <div>数量:</div>
@@ -76,6 +84,10 @@ export default {
         }
     },
     methods:{
+        //头部返回按钮
+        onClickLeft(){
+            this.$router.go(-1)
+        },
         close(){
             this.add=false;
         },
@@ -147,6 +159,7 @@ p{margin:0px;}
     box-sizing:border-box;
 }
 .myfont{
+    width:100%;
     font-size:120%;
     margin-top:10px;
 }
@@ -214,6 +227,11 @@ p{margin:0px;}
     text-align: center;
     box-sizing: border-box;
     padding-top:3px;
+}
+</style>
+<style>
+.van-nav-bar__left, .van-nav-bar__right{
+    font-size:17px !important;
 }
 </style>
 

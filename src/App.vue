@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <div v-show="mytime>0">
+      <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566979358060&di=09e8a6443f740d8a3c185199af4fe456&imgtype=0&src=http%3A%2F%2Fimg3.redocn.com%2F20140927%2FRedocn_2014092717220460.jpg" style="width:100%;z-index:1000;position:fixed;" alt="">
+      <div style="position:fixed;z-index:1001;top:20px;right:20px;background:#eee;width:20px;height:20px;text-align:center;">{{mytime}}</div>
+    </div>
     <router-view style="margin-bottom:55px;"/>
   <div  class="tabbar">
       <div @click="selActive">
@@ -39,9 +43,18 @@ export default {
          {isSelect:false},
          {isSelect:false}
        ],
+       mytime:0,//广告时间
       }
     },
     methods:{
+      load(){
+        var timeimg=setInterval(()=>{
+          this.mytime-=1
+          if(this.mytime==0){
+            clearInterval(timeimg)
+          }
+        },1000)
+      },
       changeState(n){
                   //1:n当前按钮下标
                   //2:创建循环数据
@@ -83,6 +96,9 @@ export default {
         
       }
       
+    },
+    mounted(){
+      this.load();
     },
   name: 'app',
   components: {
